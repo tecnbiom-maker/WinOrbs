@@ -81,12 +81,12 @@
         .skin-card.equipped { border-color: rgba(34, 197, 94, .6); box-shadow: 0 0 24px -6px rgba(34, 197, 94, .45); }
 
         .skin-preview {
-            width: 74px; height: 74px; border-radius: 50%;
+            width: 74px; height: 74px; flex: 0 0 74px; aspect-ratio: 1 / 1; border-radius: 50%;
             border: 3px solid rgba(255, 255, 255, .75);
             box-shadow: 0 0 22px -4px currentColor, inset 0 0 14px rgba(0, 0, 0, .35);
             position: relative; overflow: hidden;
         }
-        .skin-preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .skin-preview img { display: block; position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; }
 
         .skin-name { font-family: var(--font-display); font-weight: 600; font-size: 15px; letter-spacing: 1px; }
         .skin-precio { font-size: 13px; color: var(--amber); font-weight: 600; }

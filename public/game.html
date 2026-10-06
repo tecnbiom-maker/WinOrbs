@@ -5071,7 +5071,8 @@
                 const fb = OBSTACULOS_FALLBACK[tipo];
                 const hpRatio = (obs.hp || 0) / (obs.maxHp || 30);
                 const spriteTipo = tipo === 'roca' ? 'obstaculo' : tipo;
-                if (!drawSprite(spriteTipo, obs.x + obs.w / 2, obs.y + obs.h / 2, obs.w, obs.h)) {
+                const escalaVisual = tipo === 'barril' ? 1.5 : 1;
+                if (!drawSprite(spriteTipo, obs.x + obs.w / 2, obs.y + obs.h / 2, obs.w * escalaVisual, obs.h * escalaVisual)) {
                     ctx.fillStyle = hpRatio > 0.5 ? fb.lleno : fb.roto;
                     ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
                     ctx.strokeStyle = hpRatio < 0.4 ? '#ef4444' : fb.borde;
@@ -5094,7 +5095,7 @@
             // fallback: círculo y cuadrado originales
             (gameState.droppedEnergy || []).forEach(g => {
                 const flotacion = Math.sin(Date.now() / 400 + g.x * 0.05) * 2;
-                if (!drawSprite('orbe', g.x, g.y + flotacion, 24)) {
+                if (!drawSprite('orbe', g.x, g.y + flotacion, 40)) {
                     ctx.beginPath(); ctx.arc(g.x, g.y, 6, 0, Math.PI * 2); ctx.fillStyle = '#facc15'; ctx.fill();
                 }
             });
@@ -5237,7 +5238,12 @@
                     // recortado en cualquier rotación, así que no deja huecos.
                     ctx.translate(p.x, p.y);
                     ctx.rotate(p.angle || 0);
-                    ctx.drawImage(skImg, -lado / 2, -lado / 2, lado, lado);
+                    const imageAspect = skImg.naturalWidth / skImg.naturalHeight;
+                    const sourceWidth = imageAspect > 1 ? skImg.naturalHeight : skImg.naturalWidth;
+                    const sourceHeight = imageAspect < 1 ? skImg.naturalWidth : skImg.naturalHeight;
+                    const sourceX = (skImg.naturalWidth - sourceWidth) / 2;
+                    const sourceY = (skImg.naturalHeight - sourceHeight) / 2;
+                    ctx.drawImage(skImg, sourceX, sourceY, sourceWidth, sourceHeight, -lado / 2, -lado / 2, lado, lado);
                     ctx.restore();
                 } else {
                     const gradOrbe = ctx.createRadialGradient(p.x - p.radius * 0.35, p.y - p.radius * 0.35, p.radius * 0.15, p.x, p.y, p.radius);
